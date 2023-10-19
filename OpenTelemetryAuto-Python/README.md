@@ -7,7 +7,6 @@
     - **Name:** OTel-Tracing-Demo
     - **Runtime:** Python 3.8
     - **Architecture:** x86_64
-    - **Architecture:** x86_64
 
 2. Add the following **inline policy** to the Lambda IAM role. | Name: **CallOtherAWSServicesDemo**
 
@@ -86,24 +85,24 @@
     # collector.yaml in the root directory
     # Set an environemnt variable 'OPENTELEMETRY_COLLECTOR_CONFIG_FILE' to
     # '/var/task/collector.yaml'
-
+    
     receivers:
-    otlp:
+      otlp:
         protocols:
-        grpc:
-        http:
-
+          grpc:
+          http:
+    
     exporters:
-    logging:
+      logging:
         loglevel: debug
-    # awsxray:
-
+      # awsxray:
+    
     #enables output for traces to xray
     service:
-    pipelines:
+      pipelines:
         traces:
-        receivers: [otlp]
-        exporters: [logging]
+          receivers: [otlp]
+          exporters: [logging]
     ```
 
 2. Add variables in **Configuration** => **Environment variables** => **Edit**
