@@ -113,3 +113,5 @@
     | OPENTELEMETRY_COLLECTOR_CONFIG_FILE            | /var/task/collector.yaml     |
 
 3. If we add a collector file, it will look like the following image.
+
+    ![](../img/img03.jpg)
