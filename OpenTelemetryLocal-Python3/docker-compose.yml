@@ -1,0 +1,25 @@
+version: '3'
+services:
+  otel-collector:
+    #image: public.ecr.aws/aws-observability/aws-otel-collector:latest
+    image: otel/opentelemetry-collector-contrib:0.86.0
+    #image: otel/opentelemetry-collector:latest  # Puede que quieras especificar una versión específica
+    volumes:
+      - ./otel-config.yaml:/etc/otel-config.yaml
+      - ~/.aws:/root/.aws
+    command: ["--config=/etc/otel-config.yaml"]
+    environment:
+      - AWS_PROFILE=jhoseph
+    ports:
+      - "4317:4317"  # Puerto para el protocolo gRPC
+      - "55681:55681"  # Puerto para el protocolo HTTP
+  function-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      #- OTEL_EXPORTER_OTLP_ENDPOINT=http://20.96.246.125:4318
+      - OTEL_EXPORTER_OTLP_ENDPOINT=otel-collector:4317  # Apunta al servicio otel-collector y su puerto gRPC
+      - OTEL_RESOURCE_ATTRIBUTES=service.name=function-app
+    volumes:  # Esta es la parte que debes añadir
+      - ~/.aws:/root/.aws

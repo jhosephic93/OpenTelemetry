@@ -1,0 +1,18 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+exporters:
+  logging:
+    verbosity: detailed
+  awsxray:
+    region: us-east-1  # Cambia esto según tu región de AWS
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [logging, awsxray]
+  telemetry:
+    metrics:
+      address: localhost:8888
